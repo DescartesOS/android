@@ -1,7 +1,173 @@
-DescartesOS
-===========
+# DescartesOS
+
+## Getting Started
+
+DescartesOS is a Custom ROM Based on Android 17
+
+This guide walks you through setting up your build environment, downloading the source code, configuring device trees, and building DescartesOS.
+
+---
+
+### Download the Source
+
+Initialize the repository:
 
 ```bash
 repo init -u https://github.com/DescartesOS/android.git -b lineage-24.0 --git-lfs
+```
+
+Then synchronize the source code:
+
+```bash
 repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
 ```
+
+---
+
+### Set up Build Environment
+
+Follow the standard [LineageOS build guide](https://wiki.lineageos.org/devices/) to install required build packages and host tools for Android 17.
+
+Once dependencies are installed, source the environment scripts:
+
+```bash
+source build/envsetup.sh
+```
+
+---
+
+## Device Tree Setup
+
+DescartesOS builds on top of LineageOS and crDroid device configurations. Start from a functional LineageOS-compatible device tree.
+
+In your device's product makefile (e.g. `lineage_<device>.mk`), inherit the common telephony and device configuration:
+
+```make
+$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+```
+
+---
+
+## DescartesOS Device Properties
+
+DescartesOS provides native properties exported to "About Phone" / Hardware info and the Atelier customization dashboard.
+
+Define these in your device tree makefile:
+
+```make
+# Maintainer name (underscores in values convert to spaces in UI)
+DESCARTES_MAINTAINER := lostsignal-502
+
+# Processor / SoC model
+DESCARTES_PROCESSOR := Snapdragon_8_Gen_3
+
+# Battery capacity and technology
+DESCARTES_BATTERY := 5000_mAh
+
+# Display specification
+DESCARTES_DISPLAY := 6.78_AMOLED_120Hz
+
+# Camera sensor resolutions (comma-separated for multi-lens setups)
+DESCARTES_CAMERA_REAR_INFO := 50,48,32
+DESCARTES_CAMERA_FRONT_INFO := 32
+
+# Build release type (OFFICIAL, UNOFFICIAL, NIGHTLY)
+DESCARTES_BUILD_TYPE := OFFICIAL
+```
+
+These are automatically converted into system properties at compile time (`ro.descartes.maintainer`, `ro.descartes.soc`, `ro.descartes.battery`, `ro.descartes.display`, `ro.descartes.camera.rear`, `ro.descartes.camera.front`, `ro.descartes.buildtype`).
+
+---
+
+## Build Configuration & Flags
+
+### Google Mobile Services (GMS)
+
+DescartesOS includes integrated Evolution-X GMS support. You can configure GMS inclusion in your build:
+
+```make
+# Enable GMS in the build
+WITH_GMS := true
+
+# Optional GMS bundle variants (if WITH_GMS := true):
+# Default builds include gms_full.mk. You may override:
+TARGET_USES_MINI_GAPPS := true    # Includes gms_mini.mk
+TARGET_USES_PICO_GAPPS := true    # Includes gms_pico.mk
+```
+
+---
+
+### Firmware & Hardware Feature Flags
+
+Tweak optional features in your device makefile according to device hardware capabilities:
+
+```make
+# Face Unlock (Biometrics)
+TARGET_FACE_UNLOCK_SUPPORTED := true
+
+# Device as USB Webcam (UVC)
+TARGET_BUILD_DEVICE_AS_WEBCAM := true
+
+# Quick Tap gesture support (Columbus)
+TARGET_SUPPORTS_QUICK_TAP := true
+
+# Hardware and window blur effects
+TARGET_ENABLE_BLUR := true
+
+# Disable MatLog logging prebuilt
+TARGET_DISABLE_MATLOG := true
+```
+
+---
+
+## Building DescartesOS
+
+### Configure Target Device
+
+Select your device build variant:
+
+```bash
+breakfast <device_codename> [user|userdebug|eng]
+```
+
+Or configure via `lunch`:
+
+```bash
+lunch lineage_<device_codename>-userdebug
+```
+
+### Compile the ROM
+
+Start the build:
+
+```bash
+brunch <device_codename>
+```
+
+Or manually invoke Soong/Ninja:
+
+```bash
+m bacon -j$(nproc --all)
+```
+
+---
+
+## OTA & Updates
+
+DescartesOS Updater looks for official updates and changelogs hosted on the DescartesOS GitHub organization:
+- OTA Manifest: `https://raw.githubusercontent.com/DescartesOS/OTA/lineage-24.0/{device}.json`
+- Changelogs: `https://raw.githubusercontent.com/DescartesOS/OTA/lineage-24.0/changelogs/{device}.txt`
+- Firmware & Recovery downloads: [DescartesOS/OTA Releases](https://github.com/DescartesOS/OTA/releases)
+
+---
+
+## Credits
+
+DescartesOS is built upon the incredible work of the open-source community:
+- [Android Open Source Project (AOSP)](https://source.android.com/)
+- [LineageOS](https://github.com/LineageOS)
+- [crDroid Android](https://github.com/crdroidandroid)
+- [Evolution-X](https://github.com/Evolution-X)
+- [AxionAOSP](https://github.com/AxionAOSP)
+- [Lunaris AOSP](https://github.com/Lunaris-AOSP)
+- [PenguinOS](https://github.com/PenguinOS-AOSP)
