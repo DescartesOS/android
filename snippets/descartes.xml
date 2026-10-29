@@ -67,7 +67,7 @@
   <project path="packages/apps/Glimpse" name="crdroidandroid/android_packages_apps_Glimpse" remote="crdroid" />
   <project path="packages/apps/Launcher3" name="DescartesOS/android_packages_apps_Launcher3" groups="pdk-fs,sysui-studio,pdk-cw-tvc" remote="descartes" />
   <project path="packages/apps/LineageParts" name="DescartesOS/android_packages_apps_LineageParts" remote="descartes" />
-  <project path="packages/apps/LMOFreeform" name="crdroidandroid/android_packages_apps_LMOFreeform" remote="crdroid" />
+  <project path="packages/apps/DescartesFreeform" name="DescartesOS/android_packages_apps_DescartesFreeform" remote="descartes" />
   <project path="packages/apps/Matlog" name="crdroidandroid/android_packages_apps_Matlog" remote="crdroid" />
   <project path="packages/apps/Messaging" name="DescartesOS/android_packages_apps_Messaging" groups="pdk-fs" remote="descartes" />
   <project path="packages/apps/OmniStyle" name="crdroidandroid/android_packages_apps_OmniStyle" remote="crdroid" />
