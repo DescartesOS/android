@@ -60,6 +60,7 @@
   <project path="packages/apps/ColumbusService" name="crdroidandroid/android_packages_apps_ColumbusService" remote="crdroid" />
   <project path="packages/apps/Atelier" name="DescartesOS/android_packages_apps_Atelier" remote="descartes" />
   <project path="packages/apps/LockStyles" name="DescartesOS/android_packages_apps_LockStyles" remote="descartes" />
+  <project path="packages/apps/Sonora" name="DescartesOS/packages_apps_Sonora" remote="descartes" revision="refs/heads/main" />
   <project path="packages/apps/Dialer" name="DescartesOS/android_packages_apps_Dialer" groups="pdk-fs" remote="descartes" />
   <project path="packages/apps/DocumentsUI" name="crdroidandroid/android_packages_apps_DocumentsUI" groups="pdk-cw-fs,pdk-fs" remote="crdroid" />
   <project path="packages/apps/FaceUnlock" name="crdroidandroid/android_packages_apps_FaceUnlock" remote="crdroid-gitlab" />
